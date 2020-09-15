@@ -12,7 +12,7 @@ import (
 // EDNS0 Option codes.
 const (
 	EDNS0LLQ          = 0x1     // long lived queries: http://tools.ietf.org/html/draft-sekar-dns-llq-01
-	EDNS0UL           = 0x2     // update lease draft: http://files.dns-sd.org/draft-sekar-dns-ul.txt
+	EDNS0UL           = 0x2     // update lease draft: http://files.dns-sd.org/draft-sekar-dns-ul.TXT
 	EDNS0NSID         = 0x3     // nsid (See RFC 5001)
 	EDNS0DAU          = 0x5     // DNSSEC Algorithm Understood
 	EDNS0DHU          = 0x6     // DS Hash Understood
@@ -164,7 +164,7 @@ type EDNS0 interface {
 }
 
 // EDNS0_NSID option is used to retrieve a nameserver
-// identifier. When sending a request Nsid must be set to the empty string
+// identifier. When sending a request NSid must be set to the empty string
 // The identifier is an opaque string encoded as hex.
 // Basic use pattern for creating an nsid option:
 //
@@ -173,15 +173,15 @@ type EDNS0 interface {
 //	o.Hdr.Rrtype = dns.TypeOPT
 //	e := new(dns.EDNS0_NSID)
 //	e.Code = dns.EDNS0NSID
-//	e.Nsid = "AA"
+//	e.NSid = "AA"
 //	o.Option = append(o.Option, e)
 type EDNS0_NSID struct {
 	Code uint16 // Always EDNS0NSID
-	Nsid string // This string needs to be hex encoded
+	NSid string // This string needs to be hex encoded
 }
 
 func (e *EDNS0_NSID) pack() ([]byte, error) {
-	h, err := hex.DecodeString(e.Nsid)
+	h, err := hex.DecodeString(e.NSid)
 	if err != nil {
 		return nil, err
 	}
@@ -190,9 +190,9 @@ func (e *EDNS0_NSID) pack() ([]byte, error) {
 
 // Option implements the EDNS0 interface.
 func (e *EDNS0_NSID) Option() uint16        { return EDNS0NSID } // Option returns the option code.
-func (e *EDNS0_NSID) unpack(b []byte) error { e.Nsid = hex.EncodeToString(b); return nil }
-func (e *EDNS0_NSID) String() string        { return e.Nsid }
-func (e *EDNS0_NSID) copy() EDNS0           { return &EDNS0_NSID{e.Code, e.Nsid} }
+func (e *EDNS0_NSID) unpack(b []byte) error { e.NSid = hex.EncodeToString(b); return nil }
+func (e *EDNS0_NSID) String() string        { return e.NSid }
+func (e *EDNS0_NSID) copy() EDNS0           { return &EDNS0_NSID{e.Code, e.NSid} }
 
 // EDNS0_SUBNET is the subnet option that is used to give the remote nameserver
 // an idea of where the client lives. See RFC 7871. It can then give back a different

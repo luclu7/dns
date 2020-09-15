@@ -6,11 +6,11 @@ import (
 	"testing"
 )
 
-// TestPacketDataNsec tests generated using fuzz.go and with a message pack
+// TestPacketDataNSec tests generated using fuzz.go and with a message pack
 // containing the following bytes: 0000\x00\x00000000\x00\x002000000\x0060000\x00\x130000000000000000000"
 // That bytes sequence created the overflow error and further permutations of that sequence were able to trigger
 // the other code paths.
-func TestPackDataNsec(t *testing.T) {
+func TestPackDataNSec(t *testing.T) {
 	type args struct {
 		bitmap []uint16
 		msg    []byte
@@ -95,17 +95,17 @@ func TestPackDataNsec(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := packDataNsec(tt.args.bitmap, tt.args.msg, tt.args.off)
+			got, err := packDataNSec(tt.args.bitmap, tt.args.msg, tt.args.off)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("packDataNsec() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("packDataNSec() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if err != nil && tt.wantErrMsg != err.Error() {
-				t.Errorf("packDataNsec() error msg = %v, wantErrMsg %v", err.Error(), tt.wantErrMsg)
+				t.Errorf("packDataNSec() error msg = %v, wantErrMsg %v", err.Error(), tt.wantErrMsg)
 				return
 			}
 			if got != tt.want {
-				t.Errorf("packDataNsec() = %v, want %v", got, tt.want)
+				t.Errorf("packDataNSec() = %v, want %v", got, tt.want)
 			}
 		})
 	}

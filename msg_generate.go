@@ -104,12 +104,12 @@ return off, err
 			if _, ok := st.Field(i).Type().(*types.Slice); ok {
 				switch st.Tag(i) {
 				case `dns:"-"`: // ignored
-				case `dns:"txt"`:
+				case `dns:"TXT"`:
 					o("off, err = packStringTxt(rr.%s, msg, off)\n")
 				case `dns:"opt"`:
 					o("off, err = packDataOpt(rr.%s, msg, off)\n")
 				case `dns:"nsec"`:
-					o("off, err = packDataNsec(rr.%s, msg, off)\n")
+					o("off, err = packDataNSec(rr.%s, msg, off)\n")
 				case `dns:"domain-name"`:
 					o("off, err = packDataDomainNames(rr.%s, msg, off, compression, false)\n")
 				case `dns:"apl"`:
@@ -132,7 +132,7 @@ return off, err
 				o("off, err = packDataAAAA(rr.%s, msg, off)\n")
 			case st.Tag(i) == `dns:"uint48"`:
 				o("off, err = packUint48(rr.%s, msg, off)\n")
-			case st.Tag(i) == `dns:"txt"`:
+			case st.Tag(i) == `dns:"TXT"`:
 				o("off, err = packString(rr.%s, msg, off)\n")
 
 			case strings.HasPrefix(st.Tag(i), `dns:"size-base32`): // size-base32 can be packed just like base32
@@ -230,12 +230,12 @@ return off, err
 			if _, ok := st.Field(i).Type().(*types.Slice); ok {
 				switch st.Tag(i) {
 				case `dns:"-"`: // ignored
-				case `dns:"txt"`:
+				case `dns:"TXT"`:
 					o("rr.%s, off, err = unpackStringTxt(msg, off)\n")
 				case `dns:"opt"`:
 					o("rr.%s, off, err = unpackDataOpt(msg, off)\n")
 				case `dns:"nsec"`:
-					o("rr.%s, off, err = unpackDataNsec(msg, off)\n")
+					o("rr.%s, off, err = unpackDataNSec(msg, off)\n")
 				case `dns:"domain-name"`:
 					o("rr.%s, off, err = unpackDataDomainNames(msg, off, rdStart + int(rr.Hdr.Rdlength))\n")
 				case `dns:"apl"`:
@@ -258,7 +258,7 @@ return off, err
 				o("rr.%s, off, err = unpackDataAAAA(msg, off)\n")
 			case `dns:"uint48"`:
 				o("rr.%s, off, err = unpackUint48(msg, off)\n")
-			case `dns:"txt"`:
+			case `dns:"TXT"`:
 				o("rr.%s, off, err = unpackString(msg, off)\n")
 			case `dns:"base32"`:
 				o("rr.%s, off, err = unpackStringBase32(msg, off, rdStart + int(rr.Hdr.Rdlength))\n")

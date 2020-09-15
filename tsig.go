@@ -314,7 +314,7 @@ func stripTsig(msg []byte) ([]byte, *TSIG, error) {
 	if err != nil {
 		return nil, nil, err
 	}
-	_, off, err = unpackRRslice(int(dh.Nscount), msg, off)
+	_, off, err = unpackRRslice(int(dh.NScount), msg, off)
 	if err != nil {
 		return nil, nil, err
 	}

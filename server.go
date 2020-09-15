@@ -585,7 +585,7 @@ func (srv *Server) serveDNS(m []byte, w *response) {
 		}
 
 		// Are we allowed to delete any OPT records here?
-		req.Ns, req.Answer, req.Extra = nil, nil, nil
+		req.NS, req.Answer, req.Extra = nil, nil, nil
 
 		w.WriteMsg(req)
 		fallthrough

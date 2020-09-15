@@ -254,7 +254,7 @@ func TestPackDomainNameNSECTypeBitmap(t *testing.T) {
 					Rrtype: TypeNS,
 					Class:  ClassINET,
 				},
-				Ns: "ns1.server.com.",
+				NS: "ns1.server.com.",
 			},
 			&NSEC{
 				Hdr: RR_Header{
@@ -294,7 +294,7 @@ func TestPackUnpackManyCompressionPointers(t *testing.T) {
 	m.SetQuestion("example.org.", TypeNS)
 
 	for domain := "a."; len(domain) < maxDomainNameWireOctets; domain += "a." {
-		m.Answer = append(m.Answer, &NS{Hdr: RR_Header{Name: domain, Rrtype: TypeNS, Class: ClassINET}, Ns: "example.org."})
+		m.Answer = append(m.Answer, &NS{Hdr: RR_Header{Name: domain, Rrtype: TypeNS, Class: ClassINET}, NS: "example.org."})
 
 		b, err := m.Pack()
 		if err != nil {

@@ -219,7 +219,7 @@ func TestMsgCopy(t *testing.T) {
 	rr := testRR("miek.nl. 2311 IN A 127.0.0.1")
 	m.Answer = []RR{rr}
 	rr = testRR("miek.nl. 2311 IN NS 127.0.0.1")
-	m.Ns = []RR{rr}
+	m.NS = []RR{rr}
 
 	m1 := m.Copy()
 	if m.String() != m1.String() {
@@ -233,8 +233,8 @@ func TestMsgCopy(t *testing.T) {
 
 	rr = testRR("miek.nl. 2311 IN A 127.0.0.2")
 	m1.Answer = append(m1.Answer, rr)
-	if m1.Ns[0].String() == m1.Answer[1].String() {
-		t.Fatalf("Msg.Copy() failed; append changed underlying array %s", m1.Ns[0].String())
+	if m1.NS[0].String() == m1.Answer[1].String() {
+		t.Fatalf("Msg.Copy() failed; append changed underlying array %s", m1.NS[0].String())
 	}
 }
 

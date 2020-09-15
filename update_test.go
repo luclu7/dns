@@ -36,7 +36,7 @@ func TestDynamicUpdateZeroRdataUnpack(t *testing.T) {
 	m := new(Msg)
 	rr := &RR_Header{Name: ".", Rrtype: 0, Class: 1, Ttl: ^uint32(0), Rdlength: 0}
 	m.Answer = []RR{rr, rr, rr, rr, rr}
-	m.Ns = m.Answer
+	m.NS = m.Answer
 	for n, s := range TypeToString {
 		rr.Rrtype = n
 		bytes, err := m.Pack()
@@ -55,14 +55,14 @@ func TestRemoveRRset(t *testing.T) {
 	// for each set mentioned in the RRs provided to it.
 	rr := testRR(". 100 IN A 127.0.0.1")
 	m := new(Msg)
-	m.Ns = []RR{&RR_Header{Name: ".", Rrtype: TypeA, Class: ClassANY, Ttl: 0, Rdlength: 0}}
+	m.NS = []RR{&RR_Header{Name: ".", Rrtype: TypeA, Class: ClassANY, Ttl: 0, Rdlength: 0}}
 	expectstr := m.String()
 	expect, err := m.Pack()
 	if err != nil {
 		t.Fatalf("error packing expected msg: %v", err)
 	}
 
-	m.Ns = nil
+	m.NS = nil
 	m.RemoveRRset([]RR{rr})
 	actual, err := m.Pack()
 	if err != nil {

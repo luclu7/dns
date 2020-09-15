@@ -160,9 +160,9 @@ func TestServing(t *testing.T) {
 	if err != nil || len(r.Extra) == 0 {
 		t.Fatal("failed to exchange miek.nl", err)
 	}
-	txt := r.Extra[0].(*TXT).Txt[0]
-	if txt != "Hello world" {
-		t.Error("unexpected result for miek.nl", txt, "!= Hello world")
+	TXT := r.Extra[0].(*TXT).Txt[0]
+	if TXT != "Hello world" {
+		t.Error("unexpected result for miek.nl", TXT, "!= Hello world")
 	}
 
 	m.SetQuestion("example.com.", TypeTXT)
@@ -170,9 +170,9 @@ func TestServing(t *testing.T) {
 	if err != nil {
 		t.Fatal("failed to exchange example.com", err)
 	}
-	txt = r.Extra[0].(*TXT).Txt[0]
-	if txt != "Hello example" {
-		t.Error("unexpected result for example.com", txt, "!= Hello example")
+	TXT = r.Extra[0].(*TXT).Txt[0]
+	if TXT != "Hello example" {
+		t.Error("unexpected result for example.com", TXT, "!= Hello example")
 	}
 
 	// Test Mixes cased as noticed by Ask.
@@ -181,9 +181,9 @@ func TestServing(t *testing.T) {
 	if err != nil {
 		t.Error("failed to exchange eXaMplE.cOm", err)
 	}
-	txt = r.Extra[0].(*TXT).Txt[0]
-	if txt != "Hello example" {
-		t.Error("unexpected result for example.com", txt, "!= Hello example")
+	TXT = r.Extra[0].(*TXT).Txt[0]
+	if TXT != "Hello example" {
+		t.Error("unexpected result for example.com", TXT, "!= Hello example")
 	}
 }
 
@@ -277,9 +277,9 @@ func TestServingTLS(t *testing.T) {
 	if err != nil || len(r.Extra) == 0 {
 		t.Fatal("failed to exchange miek.nl", err)
 	}
-	txt := r.Extra[0].(*TXT).Txt[0]
-	if txt != "Hello world" {
-		t.Error("unexpected result for miek.nl", txt, "!= Hello world")
+	TXT := r.Extra[0].(*TXT).Txt[0]
+	if TXT != "Hello world" {
+		t.Error("unexpected result for miek.nl", TXT, "!= Hello world")
 	}
 
 	m.SetQuestion("example.com.", TypeTXT)
@@ -287,9 +287,9 @@ func TestServingTLS(t *testing.T) {
 	if err != nil {
 		t.Fatal("failed to exchange example.com", err)
 	}
-	txt = r.Extra[0].(*TXT).Txt[0]
-	if txt != "Hello example" {
-		t.Error("unexpected result for example.com", txt, "!= Hello example")
+	TXT = r.Extra[0].(*TXT).Txt[0]
+	if TXT != "Hello example" {
+		t.Error("unexpected result for example.com", TXT, "!= Hello example")
 	}
 
 	// Test Mixes cased as noticed by Ask.
@@ -298,9 +298,9 @@ func TestServingTLS(t *testing.T) {
 	if err != nil {
 		t.Error("failed to exchange eXaMplE.cOm", err)
 	}
-	txt = r.Extra[0].(*TXT).Txt[0]
-	if txt != "Hello example" {
-		t.Error("unexpected result for example.com", txt, "!= Hello example")
+	TXT = r.Extra[0].(*TXT).Txt[0]
+	if TXT != "Hello example" {
+		t.Error("unexpected result for example.com", TXT, "!= Hello example")
 	}
 }
 
@@ -416,9 +416,9 @@ func TestServingListenAndServe(t *testing.T) {
 	if err != nil {
 		t.Fatal("failed to exchange example.com", err)
 	}
-	txt := r.Extra[0].(*TXT).Txt[0]
-	if txt != "Hello example" {
-		t.Error("unexpected result for example.com", txt, "!= Hello example")
+	TXT := r.Extra[0].(*TXT).Txt[0]
+	if TXT != "Hello example" {
+		t.Error("unexpected result for example.com", TXT, "!= Hello example")
 	}
 	server.Shutdown()
 }
@@ -453,9 +453,9 @@ func TestServingListenAndServeTLS(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	txt := r.Extra[0].(*TXT).Txt[0]
-	if txt != "Hello example" {
-		t.Error("unexpected result for example.com", txt, "!= Hello example")
+	TXT := r.Extra[0].(*TXT).Txt[0]
+	if TXT != "Hello example" {
+		t.Error("unexpected result for example.com", TXT, "!= Hello example")
 	}
 	server.Shutdown()
 }
@@ -1007,7 +1007,7 @@ func TestServerRoundtripTsig(t *testing.T) {
 	m := new(Msg)
 	m.Opcode = OpcodeUpdate
 	m.SetQuestion("example.com.", TypeSOA)
-	m.Ns = []RR{&CNAME{
+	m.NS = []RR{&CNAME{
 		Hdr: RR_Header{
 			Name:   "foo.example.com.",
 			Rrtype: TypeCNAME,
@@ -1156,7 +1156,7 @@ WtJJX3xMgqjtHuWKL3yKKony9J5ZPjichSbSbhrzfovgYIRZLxLLDy4MP9L3+CX/
 yBXnqMWuSnFX+M5fVGxdDWiYF3V+wmeOv9JvavkCgYEAiXAPDFzaY+R78O3xiu7M
 r0o3wqqCMPE/wav6O/hrYrQy9VSO08C0IM6g9pEEUwWmzuXSkZqhYWoQFb8Lc/GI
 T7CMXAxXQLDDUpbRgG79FR3Wr3AewHZU8LyiXHKwxcBMV4WGmsXGK3wbh8fyU1NO
-6NsGk+BvkQVOoK1LBAPzZ1kCgYEAsBSmD8U33T9s4dxiEYTrqyV0lH3g/SFz8ZHH
+6NSGk+BvkQVOoK1LBAPzZ1kCgYEAsBSmD8U33T9s4dxiEYTrqyV0lH3g/SFz8ZHH
 pAyNEPI2iC1ONhyjPWKlcWHpAokiyOqeUpVBWnmSZtzC1qAydsxYB6ShT+sl9BHb
 RMix/QAauzBJhQhUVJ3OIys0Q1UBDmqCsjCE8SfOT4NKOUnA093C+YT+iyrmmktZ
 zDCJkckCgYEAndqM5KXGk5xYo+MAA1paZcbTUXwaWwjLU+XSRSSoyBEi5xMtfvUb

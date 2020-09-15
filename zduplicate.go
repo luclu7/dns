@@ -597,7 +597,7 @@ func (r1 *MX) isDuplicate(_r2 RR) bool {
 	if r1.Preference != r2.Preference {
 		return false
 	}
-	if !isDuplicateName(r1.Mx, r2.Mx) {
+	if !isDuplicateName(r1.MX, r2.MX) {
 		return false
 	}
 	return true
@@ -680,7 +680,7 @@ func (r1 *NS) isDuplicate(_r2 RR) bool {
 		return false
 	}
 	_ = r2
-	if !isDuplicateName(r1.Ns, r2.Ns) {
+	if !isDuplicateName(r1.NS, r2.NS) {
 		return false
 	}
 	return true
@@ -996,7 +996,7 @@ func (r1 *SOA) isDuplicate(_r2 RR) bool {
 		return false
 	}
 	_ = r2
-	if !isDuplicateName(r1.Ns, r2.Ns) {
+	if !isDuplicateName(r1.NS, r2.NS) {
 		return false
 	}
 	if !isDuplicateName(r1.Mbox, r2.Mbox) {

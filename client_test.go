@@ -94,12 +94,12 @@ func TestClientLocalAddress(t *testing.T) {
 	if len(r.Extra) != 1 {
 		t.Fatalf("failed to get additional answers\n%v", r)
 	}
-	txt := r.Extra[0].(*TXT)
-	if txt == nil {
-		t.Errorf("invalid TXT response\n%v", txt)
+	TXT := r.Extra[0].(*TXT)
+	if TXT == nil {
+		t.Errorf("invalid TXT response\n%v", TXT)
 	}
-	if len(txt.Txt) != 1 || !strings.Contains(txt.Txt[0], ":12345") {
-		t.Errorf("invalid TXT response\n%v", txt.Txt)
+	if len(TXT.Txt) != 1 || !strings.Contains(TXT.Txt[0], ":12345") {
+		t.Errorf("invalid TXT response\n%v", TXT.Txt)
 	}
 }
 
@@ -264,9 +264,9 @@ func TestClientEDNS0Local(t *testing.T) {
 		t.Fatal("failed to get a valid answer")
 	}
 
-	txt := r.Extra[0].(*TXT).Txt[0]
-	if txt != "Hello local edns" {
-		t.Error("Unexpected result for miek.nl", txt, "!= Hello local edns")
+	TXT := r.Extra[0].(*TXT).Txt[0]
+	if TXT != "Hello local edns" {
+		t.Error("Unexpected result for miek.nl", TXT, "!= Hello local edns")
 	}
 
 	// Validate the local options in the reply.
@@ -327,7 +327,7 @@ func TestClientConn(t *testing.T) {
 	if int(h.Bits&0xF) != RcodeSuccess {
 		t.Errorf("failed to get an valid answer in ReadMsgHeader\n%v", r)
 	}
-	if h.Ancount != 0 || h.Qdcount != 1 || h.Nscount != 0 || h.Arcount != 1 {
+	if h.Ancount != 0 || h.Qdcount != 1 || h.NScount != 0 || h.Arcount != 1 {
 		t.Errorf("expected to have question and additional in response; got something else: %+v", h)
 	}
 	if err = r.Unpack(buf); err != nil {

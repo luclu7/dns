@@ -262,12 +262,12 @@ func packUint64(i uint64, msg []byte, off int) (off1 int, err error) {
 
 func unpackString(msg []byte, off int) (string, int, error) {
 	if off+1 > len(msg) {
-		return "", off, &Error{err: "overflow unpacking txt"}
+		return "", off, &Error{err: "overflow unpacking TXT"}
 	}
 	l := int(msg[off])
 	off++
 	if off+l > len(msg) {
-		return "", off, &Error{err: "overflow unpacking txt"}
+		return "", off, &Error{err: "overflow unpacking TXT"}
 	}
 	var s strings.Builder
 	consumed := 0
@@ -298,8 +298,8 @@ func unpackString(msg []byte, off int) (string, int, error) {
 }
 
 func packString(s string, msg []byte, off int) (int, error) {
-	txtTmp := make([]byte, 256*4+1)
-	off, err := packTxtString(s, msg, off, txtTmp)
+	TXTTmp := make([]byte, 256*4+1)
+	off, err := packTxtString(s, msg, off, TXTTmp)
 	if err != nil {
 		return len(msg), err
 	}
@@ -393,16 +393,16 @@ func packStringAny(s string, msg []byte, off int) (int, error) {
 }
 
 func unpackStringTxt(msg []byte, off int) ([]string, int, error) {
-	txt, off, err := unpackTxt(msg, off)
+	TXT, off, err := unpackTxt(msg, off)
 	if err != nil {
 		return nil, len(msg), err
 	}
-	return txt, off, nil
+	return TXT, off, nil
 }
 
 func packStringTxt(s []string, msg []byte, off int) (int, error) {
-	txtTmp := make([]byte, 256*4+1) // If the whole string consists out of \DDD we need this many.
-	off, err := packTxt(s, msg, off, txtTmp)
+	TXTTmp := make([]byte, 256*4+1) // If the whole string consists out of \DDD we need this many.
+	off, err := packTxt(s, msg, off, TXTTmp)
 	if err != nil {
 		return len(msg), err
 	}
@@ -491,15 +491,15 @@ func unpackStringOctet(msg []byte, off int) (string, int, error) {
 }
 
 func packStringOctet(s string, msg []byte, off int) (int, error) {
-	txtTmp := make([]byte, 256*4+1)
-	off, err := packOctetString(s, msg, off, txtTmp)
+	TXTTmp := make([]byte, 256*4+1)
+	off, err := packOctetString(s, msg, off, TXTTmp)
 	if err != nil {
 		return len(msg), err
 	}
 	return off, nil
 }
 
-func unpackDataNsec(msg []byte, off int) ([]uint16, int, error) {
+func unpackDataNSec(msg []byte, off int) ([]uint16, int, error) {
 	var nsec []uint16
 	length, window, lastwindow := 0, 0, -1
 	for off < len(msg) {
@@ -572,7 +572,7 @@ func typeBitMapLen(bitmap []uint16) int {
 			lastlength = 0
 		}
 		if window < lastwindow || length < lastlength {
-			// packDataNsec would return Error{err: "nsec bits out of order"} here, but
+			// packDataNSec would return Error{err: "nsec bits out of order"} here, but
 			// when computing the length, we want do be liberal.
 			continue
 		}
@@ -582,7 +582,7 @@ func typeBitMapLen(bitmap []uint16) int {
 	return l
 }
 
-func packDataNsec(bitmap []uint16, msg []byte, off int) (int, error) {
+func packDataNSec(bitmap []uint16, msg []byte, off int) (int, error) {
 	if len(bitmap) == 0 {
 		return off, nil
 	}

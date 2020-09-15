@@ -24,7 +24,7 @@ func TestMsgCompressLength(t *testing.T) {
 		msg := new(Msg)
 		msg.SetQuestion(Fqdn(question), TypeANY)
 		msg.Answer = append(msg.Answer, ans...)
-		msg.Ns = append(msg.Ns, ns...)
+		msg.NS = append(msg.NS, ns...)
 		msg.Extra = append(msg.Extra, e...)
 		msg.Compress = true
 		return msg
@@ -32,10 +32,10 @@ func TestMsgCompressLength(t *testing.T) {
 
 	name1 := "12345678901234567890123456789012345.12345678.123."
 	rrA := testRR(name1 + " 3600 IN A 192.0.2.1")
-	rrMx := testRR(name1 + " 3600 IN MX 10 " + name1)
+	rrMX := testRR(name1 + " 3600 IN MX 10 " + name1)
 	tests := []*Msg{
 		makeMsg(name1, []RR{rrA}, nil, nil),
-		makeMsg(name1, []RR{rrMx, rrMx}, nil, nil)}
+		makeMsg(name1, []RR{rrMX, rrMX}, nil, nil)}
 
 	for _, msg := range tests {
 		predicted := msg.Len()
@@ -56,17 +56,17 @@ func TestMsgLength(t *testing.T) {
 		msg.Compress = true
 		msg.SetQuestion(Fqdn(question), TypeANY)
 		msg.Answer = append(msg.Answer, ans...)
-		msg.Ns = append(msg.Ns, ns...)
+		msg.NS = append(msg.NS, ns...)
 		msg.Extra = append(msg.Extra, e...)
 		return msg
 	}
 
 	name1 := "12345678901234567890123456789012345.12345678.123."
 	rrA := testRR(name1 + " 3600 IN A 192.0.2.1")
-	rrMx := testRR(name1 + " 3600 IN MX 10 " + name1)
+	rrMX := testRR(name1 + " 3600 IN MX 10 " + name1)
 	tests := []*Msg{
 		makeMsg(name1, []RR{rrA}, nil, nil),
-		makeMsg(name1, []RR{rrMx, rrMx}, nil, nil)}
+		makeMsg(name1, []RR{rrMX, rrMX}, nil, nil)}
 
 	for _, msg := range tests {
 		predicted := msg.Len()
@@ -210,7 +210,7 @@ func TestMsgLength2(t *testing.T) {
 func TestMsgLengthCompressionMalformed(t *testing.T) {
 	// SOA with empty hostmaster, which is illegal
 	soa := &SOA{Hdr: RR_Header{Name: ".", Rrtype: TypeSOA, Class: ClassINET, Ttl: 12345},
-		Ns:      ".",
+		NS:      ".",
 		Mbox:    "",
 		Serial:  0,
 		Refresh: 28800,
@@ -219,7 +219,7 @@ func TestMsgLengthCompressionMalformed(t *testing.T) {
 		Minttl:  60}
 	m := new(Msg)
 	m.Compress = true
-	m.Ns = []RR{soa}
+	m.NS = []RR{soa}
 	m.Len() // Should not crash.
 }
 
@@ -441,7 +441,7 @@ func TestMsgCompressMultipleCompressedNames(t *testing.T) {
 	})
 	msg.Answer = append(msg.Answer, &SOA{
 		Hdr:  RR_Header{Name: "www.example.com.", Class: 1, Rrtype: TypeSRV, Ttl: 0x3c},
-		Ns:   "ns.example.net.",
+		NS:   "ns.example.net.",
 		Mbox: "mail.example.net.",
 	})
 
@@ -464,7 +464,7 @@ func TestMsgCompressLengthEscapingMatch(t *testing.T) {
 	msg := new(Msg)
 	msg.Compress = true
 	msg.SetQuestion("www.example.org.", TypeA)
-	msg.Answer = append(msg.Answer, &NS{Hdr: RR_Header{Name: "ex\\097mple.org.", Rrtype: TypeNS, Class: ClassINET}, Ns: "ns.example.org."})
+	msg.Answer = append(msg.Answer, &NS{Hdr: RR_Header{Name: "ex\\097mple.org.", Rrtype: TypeNS, Class: ClassINET}, NS: "ns.example.org."})
 
 	predicted := msg.Len()
 	buf, err := msg.Pack()
@@ -494,8 +494,8 @@ func TestMsgCompressLengthEscaped(t *testing.T) {
 	msg := new(Msg)
 	msg.Compress = true
 	msg.SetQuestion("www.example.org.", TypeA)
-	msg.Answer = append(msg.Answer, &NS{Hdr: RR_Header{Name: `\000\001\002.example.org.`, Rrtype: TypeNS, Class: ClassINET}, Ns: `ns.\e\x\a\m\p\l\e.org.`})
-	msg.Answer = append(msg.Answer, &NS{Hdr: RR_Header{Name: `www.\e\x\a\m\p\l\e.org.`, Rrtype: TypeNS, Class: ClassINET}, Ns: "ns.example.org."})
+	msg.Answer = append(msg.Answer, &NS{Hdr: RR_Header{Name: `\000\001\002.example.org.`, Rrtype: TypeNS, Class: ClassINET}, NS: `ns.\e\x\a\m\p\l\e.org.`})
+	msg.Answer = append(msg.Answer, &NS{Hdr: RR_Header{Name: `www.\e\x\a\m\p\l\e.org.`, Rrtype: TypeNS, Class: ClassINET}, NS: "ns.example.org."})
 
 	predicted := msg.Len()
 	buf, err := msg.Pack()

@@ -66,45 +66,45 @@ func (u *Msg) Insert(rr []RR) {
 	if len(u.Question) == 0 {
 		panic("dns: empty question section")
 	}
-	if u.Ns == nil {
-		u.Ns = make([]RR, 0, len(rr))
+	if u.NS == nil {
+		u.NS = make([]RR, 0, len(rr))
 	}
 	for _, r := range rr {
 		r.Header().Class = u.Question[0].Qclass
-		u.Ns = append(u.Ns, r)
+		u.NS = append(u.NS, r)
 	}
 }
 
 // RemoveRRset creates a dynamic update packet that deletes an RRset, see RFC 2136 section 2.5.2.
 func (u *Msg) RemoveRRset(rr []RR) {
-	if u.Ns == nil {
-		u.Ns = make([]RR, 0, len(rr))
+	if u.NS == nil {
+		u.NS = make([]RR, 0, len(rr))
 	}
 	for _, r := range rr {
 		h := r.Header()
-		u.Ns = append(u.Ns, &ANY{Hdr: RR_Header{Name: h.Name, Ttl: 0, Rrtype: h.Rrtype, Class: ClassANY}})
+		u.NS = append(u.NS, &ANY{Hdr: RR_Header{Name: h.Name, Ttl: 0, Rrtype: h.Rrtype, Class: ClassANY}})
 	}
 }
 
 // RemoveName creates a dynamic update packet that deletes all RRsets of a name, see RFC 2136 section 2.5.3
 func (u *Msg) RemoveName(rr []RR) {
-	if u.Ns == nil {
-		u.Ns = make([]RR, 0, len(rr))
+	if u.NS == nil {
+		u.NS = make([]RR, 0, len(rr))
 	}
 	for _, r := range rr {
-		u.Ns = append(u.Ns, &ANY{Hdr: RR_Header{Name: r.Header().Name, Ttl: 0, Rrtype: TypeANY, Class: ClassANY}})
+		u.NS = append(u.NS, &ANY{Hdr: RR_Header{Name: r.Header().Name, Ttl: 0, Rrtype: TypeANY, Class: ClassANY}})
 	}
 }
 
 // Remove creates a dynamic update packet deletes RR from a RRSset, see RFC 2136 section 2.5.4
 func (u *Msg) Remove(rr []RR) {
-	if u.Ns == nil {
-		u.Ns = make([]RR, 0, len(rr))
+	if u.NS == nil {
+		u.NS = make([]RR, 0, len(rr))
 	}
 	for _, r := range rr {
 		h := r.Header()
 		h.Class = ClassNONE
 		h.Ttl = 0
-		u.Ns = append(u.Ns, r)
+		u.NS = append(u.NS, r)
 	}
 }

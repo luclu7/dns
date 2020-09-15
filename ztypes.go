@@ -441,7 +441,7 @@ func (rr *MR) len(off int, compression map[string]struct{}) int {
 func (rr *MX) len(off int, compression map[string]struct{}) int {
 	l := rr.Hdr.len(off, compression)
 	l += 2 // Preference
-	l += domainNameLen(rr.Mx, off+l, compression, true)
+	l += domainNameLen(rr.MX, off+l, compression, true)
 	return l
 }
 func (rr *NAPTR) len(off int, compression map[string]struct{}) int {
@@ -474,7 +474,7 @@ func (rr *NINFO) len(off int, compression map[string]struct{}) int {
 }
 func (rr *NS) len(off int, compression map[string]struct{}) int {
 	l := rr.Hdr.len(off, compression)
-	l += domainNameLen(rr.Ns, off+l, compression, true)
+	l += domainNameLen(rr.NS, off+l, compression, true)
 	return l
 }
 func (rr *NSAPPTR) len(off int, compression map[string]struct{}) int {
@@ -561,7 +561,7 @@ func (rr *SMIMEA) len(off int, compression map[string]struct{}) int {
 }
 func (rr *SOA) len(off int, compression map[string]struct{}) int {
 	l := rr.Hdr.len(off, compression)
-	l += domainNameLen(rr.Ns, off+l, compression, true)
+	l += domainNameLen(rr.NS, off+l, compression, true)
 	l += domainNameLen(rr.Mbox, off+l, compression, true)
 	l += 4 // Serial
 	l += 4 // Refresh
@@ -790,7 +790,7 @@ func (rr *MR) copy() RR {
 	return &MR{rr.Hdr, rr.Mr}
 }
 func (rr *MX) copy() RR {
-	return &MX{rr.Hdr, rr.Preference, rr.Mx}
+	return &MX{rr.Hdr, rr.Preference, rr.MX}
 }
 func (rr *NAPTR) copy() RR {
 	return &NAPTR{rr.Hdr, rr.Order, rr.Preference, rr.Flags, rr.Service, rr.Regexp, rr.Replacement}
@@ -807,7 +807,7 @@ func (rr *NINFO) copy() RR {
 	return &NINFO{rr.Hdr, ZSData}
 }
 func (rr *NS) copy() RR {
-	return &NS{rr.Hdr, rr.Ns}
+	return &NS{rr.Hdr, rr.NS}
 }
 func (rr *NSAPPTR) copy() RR {
 	return &NSAPPTR{rr.Hdr, rr.Ptr}
@@ -866,7 +866,7 @@ func (rr *SMIMEA) copy() RR {
 	return &SMIMEA{rr.Hdr, rr.Usage, rr.Selector, rr.MatchingType, rr.Certificate}
 }
 func (rr *SOA) copy() RR {
-	return &SOA{rr.Hdr, rr.Ns, rr.Mbox, rr.Serial, rr.Refresh, rr.Retry, rr.Expire, rr.Minttl}
+	return &SOA{rr.Hdr, rr.NS, rr.Mbox, rr.Serial, rr.Refresh, rr.Retry, rr.Expire, rr.Minttl}
 }
 func (rr *SPF) copy() RR {
 	Txt := make([]string, len(rr.Txt))

@@ -16,7 +16,7 @@ usage pattern for creating a new resource record:
      r := new(dns.MX)
      r.Hdr = dns.RR_Header{Name: "miek.nl.", Rrtype: dns.TypeMX, Class: dns.ClassINET, Ttl: 3600}
      r.Preference = 10
-     r.Mx = "mx.miek.nl."
+     r.MX = "mx.miek.nl."
 
 Or directly from a string:
 
@@ -86,7 +86,7 @@ with:
 When this functions returns you will get DNS message. A DNS message consists
 out of four sections.
 The question section: in.Question, the answer section: in.Answer,
-the authority section: in.Ns and the additional section: in.Extra.
+the authority section: in.NS and the additional section: in.Extra.
 
 Each of these sections (except the Question section) contain a []RR. Basic
 use pattern for accessing the rdata of a TXT RR as the first RR in
@@ -245,7 +245,7 @@ Basic use pattern for a server to check if (and which) options are set:
 	for _, s := range o.Option {
 		switch e := s.(type) {
 		case *dns.EDNS0_NSID:
-			// do stuff with e.Nsid
+			// do stuff with e.NSid
 		case *dns.EDNS0_SUBNET:
 			// access e.Family, e.Address, etc.
 		}

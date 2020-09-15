@@ -137,9 +137,9 @@ func TestTXTEscapeParsing(t *testing.T) {
 			continue
 		}
 
-		txt := sprintTxt(rr.(*TXT).Txt)
-		if txt != s[1] {
-			t.Errorf("mismatch after parsing `%v` TXT record: `%v` != `%v`", s[0], txt, s[1])
+		TXT := sprintTxt(rr.(*TXT).Txt)
+		if TXT != s[1] {
+			t.Errorf("mismatch after parsing `%v` TXT record: `%v` != `%v`", s[0], TXT, s[1])
 		}
 	}
 }
@@ -225,7 +225,7 @@ func GenerateTXT(r *rand.Rand, size int) []byte {
 	return rd
 }
 
-// Ok, 2 things. 1) this test breaks with the new functionality of splitting up larger txt
+// Ok, 2 things. 1) this test breaks with the new functionality of splitting up larger TXT
 // chunks into 255 byte pieces. 2) I don't like the random nature of this thing, because I can't
 // place the quotes where they need to be.
 // So either add some code the places the quotes in just the right spots, make this non random
@@ -671,7 +671,7 @@ func TestRelativeNameErrors(t *testing.T) {
 		{
 			"relative owner name in RDATA",
 			"example.com. 3600 IN SOA ns hostmaster 1 86400 60 86400 3600",
-			"bad SOA Ns",
+			"bad SOA NS",
 		},
 		{
 			"origin reference without origin",
@@ -1274,7 +1274,7 @@ func TestTxtEqual(t *testing.T) {
 func TestTxtLong(t *testing.T) {
 	rr1 := new(TXT)
 	rr1.Hdr = RR_Header{Name: ".", Rrtype: TypeTXT, Class: ClassINET, Ttl: 0}
-	// Make a long txt record, this breaks when sending the packet,
+	// Make a long TXT record, this breaks when sending the packet,
 	// but not earlier.
 	rr1.Txt = []string{"start-"}
 	for i := 0; i < 200; i++ {

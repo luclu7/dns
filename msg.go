@@ -111,7 +111,7 @@ type Msg struct {
 	Compress bool       `json:"-"` // If true, the message will be compressed when converted to wire format.
 	Question []Question // Holds the RR(s) of the question section.
 	Answer   []RR       // Holds the RR(s) of the answer section.
-	Ns       []RR       // Holds the RR(s) of the authority section.
+	NS       []RR       // Holds the RR(s) of the authority section.
 	Extra    []RR       // Holds the RR(s) of the additional section.
 }
 
@@ -443,8 +443,8 @@ Loop:
 	return string(s), off1, nil
 }
 
-func packTxt(txt []string, msg []byte, offset int, tmp []byte) (int, error) {
-	if len(txt) == 0 {
+func packTxt(TXT []string, msg []byte, offset int, tmp []byte) (int, error) {
+	if len(TXT) == 0 {
 		if offset >= len(msg) {
 			return offset, ErrBuf
 		}
@@ -452,7 +452,7 @@ func packTxt(txt []string, msg []byte, offset int, tmp []byte) (int, error) {
 		return offset, nil
 	}
 	var err error
-	for _, s := range txt {
+	for _, s := range TXT {
 		if len(s) > len(tmp) {
 			return offset, ErrBuf
 		}
@@ -495,7 +495,7 @@ func packTxtString(s string, msg []byte, offset int, tmp []byte) (int, error) {
 	}
 	l := offset - lenByteOffset - 1
 	if l > 255 {
-		return offset, &Error{err: "string exceeded 255 bytes in txt"}
+		return offset, &Error{err: "string exceeded 255 bytes in TXT"}
 	}
 	msg[lenByteOffset] = byte(l)
 	return offset, nil
@@ -774,7 +774,7 @@ func (dns *Msg) packBufferWithCompressionMap(buf []byte, compression compression
 
 	dh.Qdcount = uint16(len(dns.Question))
 	dh.Ancount = uint16(len(dns.Answer))
-	dh.Nscount = uint16(len(dns.Ns))
+	dh.NScount = uint16(len(dns.NS))
 	dh.Arcount = uint16(len(dns.Extra))
 
 	// We need the uncompressed length here, because we first pack it and then compress it.
@@ -802,7 +802,7 @@ func (dns *Msg) packBufferWithCompressionMap(buf []byte, compression compression
 			return nil, err
 		}
 	}
-	for _, r := range dns.Ns {
+	for _, r := range dns.NS {
 		_, off, err = packRR(r, msg, off, compression, compress)
 		if err != nil {
 			return nil, err
@@ -823,11 +823,11 @@ func (dns *Msg) unpack(dh Header, msg []byte, off int) (err error) {
 	// when responding with REFUSED for instance.
 	if off == len(msg) {
 		// reset sections before returning
-		dns.Question, dns.Answer, dns.Ns, dns.Extra = nil, nil, nil, nil
+		dns.Question, dns.Answer, dns.NS, dns.Extra = nil, nil, nil, nil
 		return nil
 	}
 
-	// Qdcount, Ancount, Nscount, Arcount can't be trusted, as they are
+	// Qdcount, Ancount, NScount, Arcount can't be trusted, as they are
 	// attacker controlled. This means we can't use them to pre-allocate
 	// slices.
 	dns.Question = nil
@@ -849,10 +849,10 @@ func (dns *Msg) unpack(dh Header, msg []byte, off int) (err error) {
 	// The header counts might have been wrong so we need to update it
 	dh.Ancount = uint16(len(dns.Answer))
 	if err == nil {
-		dns.Ns, off, err = unpackRRslice(int(dh.Nscount), msg, off)
+		dns.NS, off, err = unpackRRslice(int(dh.NScount), msg, off)
 	}
 	// The header counts might have been wrong so we need to update it
-	dh.Nscount = uint16(len(dns.Ns))
+	dh.NScount = uint16(len(dns.NS))
 	if err == nil {
 		dns.Extra, off, err = unpackRRslice(int(dh.Arcount), msg, off)
 	}
@@ -892,7 +892,7 @@ func (dns *Msg) String() string {
 	s := dns.MsgHdr.String() + " "
 	s += "QUERY: " + strconv.Itoa(len(dns.Question)) + ", "
 	s += "ANSWER: " + strconv.Itoa(len(dns.Answer)) + ", "
-	s += "AUTHORITY: " + strconv.Itoa(len(dns.Ns)) + ", "
+	s += "AUTHORITY: " + strconv.Itoa(len(dns.NS)) + ", "
 	s += "ADDITIONAL: " + strconv.Itoa(len(dns.Extra)) + "\n"
 	if len(dns.Question) > 0 {
 		s += "\n;; QUESTION SECTION:\n"
@@ -908,9 +908,9 @@ func (dns *Msg) String() string {
 			}
 		}
 	}
-	if len(dns.Ns) > 0 {
+	if len(dns.NS) > 0 {
 		s += "\n;; AUTHORITY SECTION:\n"
-		for _, r := range dns.Ns {
+		for _, r := range dns.NS {
 			if r != nil {
 				s += r.String() + "\n"
 			}
@@ -931,7 +931,7 @@ func (dns *Msg) String() string {
 func (dns *Msg) isCompressible() bool {
 	// If we only have one question, there is nothing we can ever compress.
 	return len(dns.Question) > 1 || len(dns.Answer) > 0 ||
-		len(dns.Ns) > 0 || len(dns.Extra) > 0
+		len(dns.NS) > 0 || len(dns.Extra) > 0
 }
 
 // Len returns the message length when in (un)compressed wire format.
@@ -960,7 +960,7 @@ func msgLenWithCompressionMap(dns *Msg, compression map[string]struct{}) int {
 			l += r.len(l, compression)
 		}
 	}
-	for _, r := range dns.Ns {
+	for _, r := range dns.NS {
 		if r != nil {
 			l += r.len(l, compression)
 		}
@@ -1052,17 +1052,17 @@ func (dns *Msg) CopyTo(r1 *Msg) *Msg {
 		copy(r1.Question, dns.Question) // TODO(miek): Question is an immutable value, ok to do a shallow-copy
 	}
 
-	rrArr := make([]RR, len(dns.Answer)+len(dns.Ns)+len(dns.Extra))
+	rrArr := make([]RR, len(dns.Answer)+len(dns.NS)+len(dns.Extra))
 	r1.Answer, rrArr = rrArr[:0:len(dns.Answer)], rrArr[len(dns.Answer):]
-	r1.Ns, rrArr = rrArr[:0:len(dns.Ns)], rrArr[len(dns.Ns):]
+	r1.NS, rrArr = rrArr[:0:len(dns.NS)], rrArr[len(dns.NS):]
 	r1.Extra = rrArr[:0:len(dns.Extra)]
 
 	for _, r := range dns.Answer {
 		r1.Answer = append(r1.Answer, r.copy())
 	}
 
-	for _, r := range dns.Ns {
-		r1.Ns = append(r1.Ns, r.copy())
+	for _, r := range dns.NS {
+		r1.NS = append(r1.NS, r.copy())
 	}
 
 	for _, r := range dns.Extra {
@@ -1131,7 +1131,7 @@ func (dh *Header) pack(msg []byte, off int, compression compressionMap, compress
 	if err != nil {
 		return off, err
 	}
-	off, err = packUint16(dh.Nscount, msg, off)
+	off, err = packUint16(dh.NScount, msg, off)
 	if err != nil {
 		return off, err
 	}
@@ -1163,7 +1163,7 @@ func unpackMsgHdr(msg []byte, off int) (Header, int, error) {
 	if err != nil {
 		return dh, off, err
 	}
-	dh.Nscount, off, err = unpackUint16(msg, off)
+	dh.NScount, off, err = unpackUint16(msg, off)
 	if err != nil {
 		return dh, off, err
 	}

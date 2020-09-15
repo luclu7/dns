@@ -117,7 +117,7 @@ func TestTruncation(t *testing.T) {
 	}
 
 	for i := 0; i < 5; i++ {
-		reply.Ns = append(reply.Ns, testRR(fmt.Sprintf("srv.subdomain.example.org. 5 IN NS ip-10-10-33-6%d.subdomain.example.org.", i)))
+		reply.NS = append(reply.NS, testRR(fmt.Sprintf("srv.subdomain.example.org. 5 IN NS ip-10-10-33-6%d.subdomain.example.org.", i)))
 	}
 
 	for bufsize := 1024; bufsize <= 4096; bufsize += 12 {

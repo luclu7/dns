@@ -672,7 +672,7 @@ func rawSignatureData(rrset []RR, s *RRSIG) (buf []byte, err error) {
 		//	conversion.
 		switch x := r1.(type) {
 		case *NS:
-			x.Ns = CanonicalName(x.Ns)
+			x.NS = CanonicalName(x.NS)
 		case *MD:
 			x.Md = CanonicalName(x.Md)
 		case *MF:
@@ -680,7 +680,7 @@ func rawSignatureData(rrset []RR, s *RRSIG) (buf []byte, err error) {
 		case *CNAME:
 			x.Target = CanonicalName(x.Target)
 		case *SOA:
-			x.Ns = CanonicalName(x.Ns)
+			x.NS = CanonicalName(x.NS)
 			x.Mbox = CanonicalName(x.Mbox)
 		case *MB:
 			x.Mb = CanonicalName(x.Mb)
@@ -694,7 +694,7 @@ func rawSignatureData(rrset []RR, s *RRSIG) (buf []byte, err error) {
 			x.Rmail = CanonicalName(x.Rmail)
 			x.Email = CanonicalName(x.Email)
 		case *MX:
-			x.Mx = CanonicalName(x.Mx)
+			x.MX = CanonicalName(x.MX)
 		case *RP:
 			x.Mbox = CanonicalName(x.Mbox)
 			x.Txt = CanonicalName(x.Txt)

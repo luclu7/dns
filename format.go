@@ -78,7 +78,7 @@ func Field(r RR, i int) string {
 		default:
 			// if it does not have a tag its a string slice
 			fallthrough
-		case `dns:"txt"`:
+		case `dns:"TXT"`:
 			if d.Len() == 0 {
 				return ""
 			}

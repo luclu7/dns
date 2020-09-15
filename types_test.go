@@ -177,14 +177,14 @@ func BenchmarkSprintTxtOctet(b *testing.B) {
 }
 
 func BenchmarkSprintTxt(b *testing.B) {
-	txt := []string{
+	TXT := []string{
 		"abc\\.def\007\"\127@\255\x05\xef\\",
 		"example.com",
 	}
 
 	b.ResetTimer()
 	for n := 0; n < b.N; n++ {
-		got := sprintTxt(txt)
+		got := sprintTxt(TXT)
 
 		if want := "\"abc.def\\007\\\"W@\\173\\005\\239\" \"example.com\""; got != want {
 			b.Fatalf("expected %q, got %q", got, want)

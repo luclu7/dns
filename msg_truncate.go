@@ -68,7 +68,7 @@ func (dns *Msg) Truncate(size int) {
 
 	var numNS int
 	if l < size {
-		l, numNS = truncateLoop(dns.Ns, size, l, compression)
+		l, numNS = truncateLoop(dns.NS, size, l, compression)
 	}
 
 	var numExtra int
@@ -78,10 +78,10 @@ func (dns *Msg) Truncate(size int) {
 
 	// See the function documentation for when we set this.
 	dns.Truncated = len(dns.Answer) > numAnswer ||
-		len(dns.Ns) > numNS || len(dns.Extra) > numExtra
+		len(dns.NS) > numNS || len(dns.Extra) > numExtra
 
 	dns.Answer = dns.Answer[:numAnswer]
-	dns.Ns = dns.Ns[:numNS]
+	dns.NS = dns.NS[:numNS]
 	dns.Extra = dns.Extra[:numExtra]
 
 	if edns0 != nil {

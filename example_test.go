@@ -64,11 +64,11 @@ type APAIR struct {
 func NewAPAIR() dns.PrivateRdata { return new(APAIR) }
 
 func (rd *APAIR) String() string { return rd.addr[0].String() + " " + rd.addr[1].String() }
-func (rd *APAIR) Parse(txt []string) error {
-	if len(txt) != 2 {
+func (rd *APAIR) Parse(TXT []string) error {
+	if len(TXT) != 2 {
 		return errors.New("two addresses required for APAIR")
 	}
-	for i, s := range txt {
+	for i, s := range TXT {
 		ip := net.ParseIP(s)
 		if ip == nil {
 			return errors.New("invalid IP in APAIR text representation")

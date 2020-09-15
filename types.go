@@ -152,7 +152,7 @@ const (
 type Header struct {
 	Id                                 uint16
 	Bits                               uint16
-	Qdcount, Ancount, Nscount, Arcount uint16
+	Qdcount, Ancount, NScount, Arcount uint16
 }
 
 const (
@@ -342,11 +342,11 @@ func (rr *MD) String() string {
 type MX struct {
 	Hdr        RR_Header
 	Preference uint16
-	Mx         string `dns:"cdomain-name",json:"MX"`
+	MX         string `dns:"cdomain-name",json:"MX"`
 }
 
 func (rr *MX) String() string {
-	return rr.Hdr.String() + strconv.Itoa(int(rr.Preference)) + " " + sprintName(rr.Mx)
+	return rr.Hdr.String() + strconv.Itoa(int(rr.Preference)) + " " + sprintName(rr.MX)
 }
 
 // AFSDB RR. See RFC 1183.
@@ -384,11 +384,11 @@ func (rr *RT) String() string {
 // NS RR. See RFC 1035.
 type NS struct {
 	Hdr RR_Header
-	Ns  string `dns:"cdomain-name",json:"NS"`
+	NS  string `dns:"cdomain-name",json:"NS"`
 }
 
 func (rr *NS) String() string {
-	return rr.Hdr.String() + sprintName(rr.Ns)
+	return rr.Hdr.String() + sprintName(rr.NS)
 }
 
 // PTR RR. See RFC 1035.
@@ -415,7 +415,7 @@ func (rr *RP) String() string {
 // SOA RR. See RFC 1035.
 type SOA struct {
 	Hdr     RR_Header
-	Ns      string `dns:"cdomain-name"`
+	NS      string `dns:"cdomain-name"`
 	Mbox    string `dns:"cdomain-name"`
 	Serial  uint32
 	Refresh uint32
@@ -425,7 +425,7 @@ type SOA struct {
 }
 
 func (rr *SOA) String() string {
-	return rr.Hdr.String() + sprintName(rr.Ns) + " " + sprintName(rr.Mbox) +
+	return rr.Hdr.String() + sprintName(rr.NS) + " " + sprintName(rr.Mbox) +
 		" " + strconv.FormatInt(int64(rr.Serial), 10) +
 		" " + strconv.FormatInt(int64(rr.Refresh), 10) +
 		" " + strconv.FormatInt(int64(rr.Retry), 10) +
@@ -436,7 +436,7 @@ func (rr *SOA) String() string {
 // TXT RR. See RFC 1035.
 type TXT struct {
 	Hdr RR_Header
-	Txt []string `dns:"txt",json:"TXT"`
+	Txt []string `dns:"TXT",json:"TXT"`
 }
 
 func (rr *TXT) String() string { return rr.Hdr.String() + sprintTxt(rr.Txt) }
@@ -510,9 +510,9 @@ func sprintTxtOctet(s string) string {
 	return dst.String()
 }
 
-func sprintTxt(txt []string) string {
+func sprintTxt(TXT []string) string {
 	var out strings.Builder
-	for i, s := range txt {
+	for i, s := range TXT {
 		out.Grow(3 + len(s))
 		if i > 0 {
 			out.WriteString(` "`)
@@ -613,7 +613,7 @@ func nextByte(s string, offset int) (byte, int) {
 // SPF RR. See RFC 4408, Section 3.1.1.
 type SPF struct {
 	Hdr RR_Header
-	Txt []string `dns:"txt",json:"TXT"`
+	Txt []string `dns:"TXT",json:"TXT"`
 }
 
 func (rr *SPF) String() string { return rr.Hdr.String() + sprintTxt(rr.Txt) }
@@ -621,7 +621,7 @@ func (rr *SPF) String() string { return rr.Hdr.String() + sprintTxt(rr.Txt) }
 // AVC RR. See https://www.iana.org/assignments/dns-parameters/AVC/avc-completed-template.
 type AVC struct {
 	Hdr RR_Header
-	Txt []string `dns:"txt"`
+	Txt []string `dns:"TXT"`
 }
 
 func (rr *AVC) String() string { return rr.Hdr.String() + sprintTxt(rr.Txt) }
@@ -1199,7 +1199,7 @@ func (rr *HIP) String() string {
 // NINFO RR. See https://www.iana.org/assignments/dns-parameters/NINFO/ninfo-completed-template.
 type NINFO struct {
 	Hdr    RR_Header
-	ZSData []string `dns:"txt"`
+	ZSData []string `dns:"TXT"`
 }
 
 func (rr *NINFO) String() string { return rr.Hdr.String() + sprintTxt(rr.ZSData) }
@@ -1311,7 +1311,7 @@ type UINFO struct {
 
 func (rr *UINFO) String() string { return rr.Hdr.String() + sprintTxt([]string{rr.Uinfo}) }
 
-// EID RR. See http://ana-3.lcs.mit.edu/~jnc/nimrod/dns.txt.
+// EID RR. See http://ana-3.lcs.mit.edu/~jnc/nimrod/dns.TXT.
 type EID struct {
 	Hdr      RR_Header
 	Endpoint string `dns:"hex"`
@@ -1319,7 +1319,7 @@ type EID struct {
 
 func (rr *EID) String() string { return rr.Hdr.String() + strings.ToUpper(rr.Endpoint) }
 
-// NIMLOC RR. See http://ana-3.lcs.mit.edu/~jnc/nimrod/dns.txt.
+// NIMLOC RR. See http://ana-3.lcs.mit.edu/~jnc/nimrod/dns.TXT.
 type NIMLOC struct {
 	Hdr     RR_Header
 	Locator string `dns:"hex"`

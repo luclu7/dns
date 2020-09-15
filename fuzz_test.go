@@ -81,7 +81,7 @@ func TestPackDataOpt(t *testing.T) {
 // That byte sequence, when Unpack() and subsequential Pack() created a
 // panic: runtime error: slice bounds out of range
 // which was attributed to the fact that NSEC RR length computation was different (and smaller)
-// then when within packDataNsec.
+// then when within packDataNSec.
 func TestCrashNSEC(t *testing.T) {
 	compression := make(map[string]struct{})
 	nsec := &NSEC{
@@ -115,7 +115,7 @@ func TestCrashNSEC(t *testing.T) {
 // panic: runtime error: slice bounds out of range
 // which was attributed to the fact that NSEC3 RR length computation was
 // different (and smaller) then within NSEC3.pack (which relies on
-// packDataNsec).
+// packDataNSec).
 func TestCrashNSEC3(t *testing.T) {
 	compression := make(map[string]struct{})
 	nsec3 := &NSEC3{

@@ -145,7 +145,7 @@ func (rr *CSYNC) pack(msg []byte, off int, compression compressionMap, compress 
 	if err != nil {
 		return off, err
 	}
-	off, err = packDataNsec(rr.TypeBitMap, msg, off)
+	off, err = packDataNSec(rr.TypeBitMap, msg, off)
 	if err != nil {
 		return off, err
 	}
@@ -473,7 +473,7 @@ func (rr *MX) pack(msg []byte, off int, compression compressionMap, compress boo
 	if err != nil {
 		return off, err
 	}
-	off, err = packDomainName(rr.Mx, msg, off, compression, compress)
+	off, err = packDomainName(rr.MX, msg, off, compression, compress)
 	if err != nil {
 		return off, err
 	}
@@ -537,7 +537,7 @@ func (rr *NINFO) pack(msg []byte, off int, compression compressionMap, compress 
 }
 
 func (rr *NS) pack(msg []byte, off int, compression compressionMap, compress bool) (off1 int, err error) {
-	off, err = packDomainName(rr.Ns, msg, off, compression, compress)
+	off, err = packDomainName(rr.NS, msg, off, compression, compress)
 	if err != nil {
 		return off, err
 	}
@@ -557,7 +557,7 @@ func (rr *NSEC) pack(msg []byte, off int, compression compressionMap, compress b
 	if err != nil {
 		return off, err
 	}
-	off, err = packDataNsec(rr.TypeBitMap, msg, off)
+	off, err = packDataNSec(rr.TypeBitMap, msg, off)
 	if err != nil {
 		return off, err
 	}
@@ -596,7 +596,7 @@ func (rr *NSEC3) pack(msg []byte, off int, compression compressionMap, compress 
 	if err != nil {
 		return off, err
 	}
-	off, err = packDataNsec(rr.TypeBitMap, msg, off)
+	off, err = packDataNSec(rr.TypeBitMap, msg, off)
 	if err != nil {
 		return off, err
 	}
@@ -831,7 +831,7 @@ func (rr *SMIMEA) pack(msg []byte, off int, compression compressionMap, compress
 }
 
 func (rr *SOA) pack(msg []byte, off int, compression compressionMap, compress bool) (off1 int, err error) {
-	off, err = packDomainName(rr.Ns, msg, off, compression, compress)
+	off, err = packDomainName(rr.NS, msg, off, compression, compress)
 	if err != nil {
 		return off, err
 	}
@@ -1307,7 +1307,7 @@ func (rr *CSYNC) unpack(msg []byte, off int) (off1 int, err error) {
 	if off == len(msg) {
 		return off, nil
 	}
-	rr.TypeBitMap, off, err = unpackDataNsec(msg, off)
+	rr.TypeBitMap, off, err = unpackDataNSec(msg, off)
 	if err != nil {
 		return off, err
 	}
@@ -1800,7 +1800,7 @@ func (rr *MX) unpack(msg []byte, off int) (off1 int, err error) {
 	if off == len(msg) {
 		return off, nil
 	}
-	rr.Mx, off, err = UnpackDomainName(msg, off)
+	rr.MX, off, err = UnpackDomainName(msg, off)
 	if err != nil {
 		return off, err
 	}
@@ -1897,7 +1897,7 @@ func (rr *NS) unpack(msg []byte, off int) (off1 int, err error) {
 	rdStart := off
 	_ = rdStart
 
-	rr.Ns, off, err = UnpackDomainName(msg, off)
+	rr.NS, off, err = UnpackDomainName(msg, off)
 	if err != nil {
 		return off, err
 	}
@@ -1926,7 +1926,7 @@ func (rr *NSEC) unpack(msg []byte, off int) (off1 int, err error) {
 	if off == len(msg) {
 		return off, nil
 	}
-	rr.TypeBitMap, off, err = unpackDataNsec(msg, off)
+	rr.TypeBitMap, off, err = unpackDataNSec(msg, off)
 	if err != nil {
 		return off, err
 	}
@@ -1980,7 +1980,7 @@ func (rr *NSEC3) unpack(msg []byte, off int) (off1 int, err error) {
 	if err != nil {
 		return off, err
 	}
-	rr.TypeBitMap, off, err = unpackDataNsec(msg, off)
+	rr.TypeBitMap, off, err = unpackDataNSec(msg, off)
 	if err != nil {
 		return off, err
 	}
@@ -2344,7 +2344,7 @@ func (rr *SOA) unpack(msg []byte, off int) (off1 int, err error) {
 	rdStart := off
 	_ = rdStart
 
-	rr.Ns, off, err = UnpackDomainName(msg, off)
+	rr.NS, off, err = UnpackDomainName(msg, off)
 	if err != nil {
 		return off, err
 	}

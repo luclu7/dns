@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestPackNsec3(t *testing.T) {
+func TestPackNSec3(t *testing.T) {
 	nsec3 := HashName("dnsex.nl.", SHA1, 0, "DEAD")
 	if nsec3 != "ROCCJAE8BJJU7HN6T7NG3TNM8ACRS87J" {
 		t.Error(nsec3)
@@ -17,7 +17,7 @@ func TestPackNsec3(t *testing.T) {
 	}
 }
 
-func TestNsec3(t *testing.T) {
+func TestNSec3(t *testing.T) {
 	nsec3 := testRR("sk4e8fj94u78smusb40o1n0oltbblu2r.nl. IN NSEC3 1 1 5 F10E9F7EA83FC8F3 SK4F38CQ0ATIEI8MH3RGD0P5I4II6QAN NS SOA TXT RRSIG DNSKEY NSEC3PARAM")
 	if !nsec3.(*NSEC3).Match("nl.") { // name hash = sk4e8fj94u78smusb40o1n0oltbblu2r
 		t.Fatal("sk4e8fj94u78smusb40o1n0oltbblu2r.nl. should match sk4e8fj94u78smusb40o1n0oltbblu2r.nl.")
@@ -147,7 +147,7 @@ func TestNsec3(t *testing.T) {
 	}
 }
 
-func TestNsec3EmptySalt(t *testing.T) {
+func TestNSec3EmptySalt(t *testing.T) {
 	rr, _ := NewRR("CK0POJMG874LJREF7EFN8430QVIT8BSM.com. 86400 IN NSEC3 1 1 0 - CK0Q1GIN43N1ARRC9OSM6QPQR81H5M9A  NS SOA RRSIG DNSKEY NSEC3PARAM")
 
 	if !rr.(*NSEC3).Match("com.") {

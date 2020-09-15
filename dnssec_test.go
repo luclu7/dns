@@ -15,7 +15,7 @@ import (
 func getSoa() *SOA {
 	soa := new(SOA)
 	soa.Hdr = RR_Header{"miek.nl.", TypeSOA, ClassINET, 14400, 0}
-	soa.Ns = "open.nlnetlabs.nl."
+	soa.NS = "open.nlnetlabs.nl."
 	soa.Mbox = "miekg.atoom.net."
 	soa.Serial = 1293945905
 	soa.Refresh = 14400
@@ -86,7 +86,7 @@ func TestSignVerify(t *testing.T) {
 	// The record we want to sign
 	soa := new(SOA)
 	soa.Hdr = RR_Header{"miek.nl.", TypeSOA, ClassINET, 14400, 0}
-	soa.Ns = "open.nlnetlabs.nl."
+	soa.NS = "open.nlnetlabs.nl."
 	soa.Mbox = "miekg.atoom.net."
 	soa.Serial = 1293945905
 	soa.Refresh = 14400
@@ -96,7 +96,7 @@ func TestSignVerify(t *testing.T) {
 
 	soa1 := new(SOA)
 	soa1.Hdr = RR_Header{"*.miek.nl.", TypeSOA, ClassINET, 14400, 0}
-	soa1.Ns = "open.nlnetlabs.nl."
+	soa1.NS = "open.nlnetlabs.nl."
 	soa1.Mbox = "miekg.atoom.net."
 	soa1.Serial = 1293945905
 	soa1.Refresh = 14400
@@ -202,7 +202,7 @@ Algorithm: 10 (RSASHA512)
 Modulus: m4wK7YV26AeROtdiCXmqLG9wPDVoMOW8vjr/EkpscEAdjXp81RvZvrlzCSjYmz9onFRgltmTl3AINnFh+t9tlW0M9C5zejxBoKFXELv8ljPYAdz2oe+pDWPhWsfvVFYg2VCjpViPM38EakyE5mhk4TDOnUd+w4TeU1hyhZTWyYs=
 PublicExponent: AQAB
 PrivateExponent: UfCoIQ/Z38l8vB6SSqOI/feGjHEl/fxIPX4euKf0D/32k30fHbSaNFrFOuIFmWMB3LimWVEs6u3dpbB9CQeCVg7hwU5puG7OtuiZJgDAhNeOnxvo5btp4XzPZrJSxR4WNQnwIiYWbl0aFlL1VGgHC/3By89ENZyWaZcMLW4KGWE=
-Prime1: yxwC6ogAu8aVcDx2wg1V0b5M5P6jP8qkRFVMxWNTw60Vkn+ECvw6YAZZBHZPaMyRYZLzPgUlyYRd0cjupy4+fQ==
+Prime1: yxwC6ogAu8aVcDx2wg1V0b5M5P6jP8qkRFVMXWNTw60Vkn+ECvw6YAZZBHZPaMyRYZLzPgUlyYRd0cjupy4+fQ==
 Prime2: xA1bF8M0RTIQ6+A11AoVG6GIR/aPGg5sogRkIZ7ID/sF6g9HMVU/CM2TqVEBJLRPp73cv6ZeC3bcqOCqZhz+pw==
 Exponent1: xzkblyZ96bGYxTVZm2/vHMOXswod4KWIyMoOepK6B/ZPcZoIT6omLCgtypWtwHLfqyCz3MK51Nc0G2EGzg8rFQ==
 Exponent2: Pu5+mCEb7T5F+kFNZhQadHUklt0JUHbi3hsEvVoHpEGSw3BGDQrtIflDde0/rbWHgDPM4WQY+hscd8UuTXrvLw==
@@ -255,7 +255,7 @@ func TestKeyRSA(t *testing.T) {
 
 	soa := new(SOA)
 	soa.Hdr = RR_Header{"miek.nl.", TypeSOA, ClassINET, 14400, 0}
-	soa.Ns = "open.nlnetlabs.nl."
+	soa.NS = "open.nlnetlabs.nl."
 	soa.Mbox = "miekg.atoom.net."
 	soa.Serial = 1293945905
 	soa.Refresh = 14400
@@ -337,7 +337,7 @@ Activate: 20110302104537`
 
 	soa := new(SOA)
 	soa.Hdr = RR_Header{"miek.nl.", TypeSOA, ClassINET, 14400, 0}
-	soa.Ns = "open.nlnetlabs.nl."
+	soa.NS = "open.nlnetlabs.nl."
 	soa.Mbox = "miekg.atoom.net."
 	soa.Serial = 1293945905
 	soa.Refresh = 14400
@@ -831,7 +831,7 @@ func TestInvalidRRSet(t *testing.T) {
 // Issue #688 - RSA exponent unpacked in reverse
 func TestRsaExponentUnpack(t *testing.T) {
 	zskRrDnskey, _ := NewRR("isc.org.                7200    IN      DNSKEY  256 3 5 AwEAAcdkaRUlsRD4gcF63PpPJJ1E6kOIb3yn/UHptVsPEQtEbgJ2y20O eix4unpwoQkz+bIAd2rrOU/95wgV530x0/qqKwBLWoGkxdcnNcvVT4hl 3SOTZy1VjwkAfyayHPU8VisXqJGbB3KWevBZlb6AtrXzFu8AHuBeeAAe /fOgreCh")
-	kskRrDnskey, _ := NewRR("isc.org.                7200    IN      DNSKEY  257 3 5 BEAAAAOhHQDBrhQbtphgq2wQUpEQ5t4DtUHxoMVFu2hWLDMvoOMRXjGr hhCeFvAZih7yJHf8ZGfW6hd38hXG/xylYCO6Krpbdojwx8YMXLA5/kA+ u50WIL8ZR1R6KTbsYVMf/Qx5RiNbPClw+vT+U8eXEJmO20jIS1ULgqy3 47cBB1zMnnz/4LJpA0da9CbKj3A254T515sNIMcwsB8/2+2E63/zZrQz Bkj0BrN/9Bexjpiks3jRhZatEsXn3dTy47R09Uix5WcJt+xzqZ7+ysyL KOOedS39Z7SDmsn2eA0FKtQpwA6LXeG2w+jxmw3oA8lVUgEf/rzeC/bB yBNsO70aEFTd")
+	kskRrDnskey, _ := NewRR("isc.org.                7200    IN      DNSKEY  257 3 5 BEAAAAOhHQDBrhQbtphgq2wQUpEQ5t4DtUHxoMVFu2hWLDMvoOMRXjGr hhCeFvAZih7yJHf8ZGfW6hd38hXG/xylYCO6Krpbdojwx8YMXLA5/kA+ u50WIL8ZR1R6KTbsYVMf/Qx5RiNbPClw+vT+U8eXEJmO20jIS1ULgqy3 47cBB1zMnnz/4LJpA0da9CbKj3A254T515sNIMcwsB8/2+2E63/zZrQz Bkj0BrN/9Bexjpiks3jRhZatEsXn3dTy47R09Uix5WcJt+xzqZ7+ysyL KOOedS39Z7SDmsn2eA0FKtQpwA6LXeG2w+jxmw3oA8lVUgEf/rzeC/bB yBNSO70aEFTd")
 	kskRrRrsig, _ := NewRR("isc.org.                7200    IN      RRSIG   DNSKEY 5 2 7200 20180627230244 20180528230244 12892 isc.org. ebKBlhYi1hPGTdPg6zSwvprOIkoFMs+WIhMSjoYW6/K5CS9lDDFdK4cu TgXJRT3etrltTuJiFe2HRpp+7t5cKLy+CeJZVzqrCz200MoHiFuLI9yI DJQGaS5YYCiFbw5+jUGU6aUhZ7Y5/YufeqATkRZzdrKwgK+zri8LPw9T WLoVJPAOW7GR0dgxl9WKmO7Fzi9P8BZR3NuwLV7329X94j+4zyswaw7q e5vif0ybzFveODLsEi/E0a2rTXc4QzzyM0fSVxRkVQyQ7ifIPP4ohnnT d5qpPUbE8xxBzTdWR/TaKADC5aCFkppG9lVAq5CPfClii2949X5RYzy1 rxhuSA==")
 	zskRrRrsig, _ := NewRR("isc.org.                7200    IN      RRSIG   DNSKEY 5 2 7200 20180627230244 20180528230244 19923 isc.org. RgCfzUeq4RJPGoe9RRB6cWf6d/Du+tHK5SxI5QL1waA3O5qVtQKFkY1C dq/yyVjwzfjD9F62TObujOaktv8X80ZMcNPmgHbvK1xOqelMBWv5hxj3 xRe+QQObLZ5NPfHFsphQKXvwgO5Sjk8py2B2iCr3BHCZ8S38oIfuSrQx sn8=")
 

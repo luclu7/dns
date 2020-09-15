@@ -71,7 +71,7 @@ func endingToTxtSlice(c *zlexer, errstr string) ([]string, *ParseError) {
 			s = append(s, l.token)
 		case zBlank:
 			if quote {
-				// zBlank can only be seen in between txt parts.
+				// zBlank can only be seen in between TXT parts.
 				return nil, &ParseError{"", errstr, l}
 			}
 		case zQuote:
@@ -123,9 +123,9 @@ func (rr *NS) parse(c *zlexer, o string) *ParseError {
 	l, _ := c.Next()
 	name, nameOk := toAbsoluteName(l.token, o)
 	if l.err || !nameOk {
-		return &ParseError{"", "bad NS Ns", l}
+		return &ParseError{"", "bad NS NS", l}
 	}
-	rr.Ns = name
+	rr.NS = name
 	return slurpRemainder(c)
 }
 
@@ -161,11 +161,11 @@ func (rr *RP) parse(c *zlexer, o string) *ParseError {
 	l, _ = c.Next()
 	rr.Txt = l.token
 
-	txt, txtOk := toAbsoluteName(l.token, o)
-	if l.err || !txtOk {
+	TXT, TXTOk := toAbsoluteName(l.token, o)
+	if l.err || !TXTOk {
 		return &ParseError{"", "bad RP Txt", l}
 	}
-	rr.Txt = txt
+	rr.Txt = TXT
 
 	return slurpRemainder(c)
 }
@@ -274,13 +274,13 @@ func (rr *MX) parse(c *zlexer, o string) *ParseError {
 
 	c.Next()        // zBlank
 	l, _ = c.Next() // zString
-	rr.Mx = l.token
+	rr.MX = l.token
 
 	name, nameOk := toAbsoluteName(l.token, o)
 	if l.err || !nameOk {
-		return &ParseError{"", "bad MX Mx", l}
+		return &ParseError{"", "bad MX MX", l}
 	}
-	rr.Mx = name
+	rr.MX = name
 
 	return slurpRemainder(c)
 }
@@ -379,9 +379,9 @@ func (rr *SOA) parse(c *zlexer, o string) *ParseError {
 	l, _ := c.Next()
 	ns, nsOk := toAbsoluteName(l.token, o)
 	if l.err || !nsOk {
-		return &ParseError{"", "bad SOA Ns", l}
+		return &ParseError{"", "bad SOA NS", l}
 	}
-	rr.Ns = ns
+	rr.NS = ns
 
 	c.Next() // zBlank
 	l, _ = c.Next()

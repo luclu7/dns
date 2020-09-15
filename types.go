@@ -384,7 +384,7 @@ func (rr *RT) String() string {
 // NS RR. See RFC 1035.
 type NS struct {
 	Hdr RR_Header
-	Ns  string `dns:"cdomain-name"`
+	Ns  string `dns:"cdomain-name",json:"NS"`
 }
 
 func (rr *NS) String() string {
@@ -394,7 +394,7 @@ func (rr *NS) String() string {
 // PTR RR. See RFC 1035.
 type PTR struct {
 	Hdr RR_Header
-	Ptr string `dns:"cdomain-name"`
+	Ptr string `dns:"cdomain-name",json:"PTR"`
 }
 
 func (rr *PTR) String() string {
@@ -436,7 +436,7 @@ func (rr *SOA) String() string {
 // TXT RR. See RFC 1035.
 type TXT struct {
 	Hdr RR_Header
-	Txt []string `dns:"txt"`
+	Txt []string `dns:"txt",json:"TXT"`
 }
 
 func (rr *TXT) String() string { return rr.Hdr.String() + sprintTxt(rr.Txt) }
@@ -613,7 +613,7 @@ func nextByte(s string, offset int) (byte, int) {
 // SPF RR. See RFC 4408, Section 3.1.1.
 type SPF struct {
 	Hdr RR_Header
-	Txt []string `dns:"txt"`
+	Txt []string `dns:"txt",json:"TXT"`
 }
 
 func (rr *SPF) String() string { return rr.Hdr.String() + sprintTxt(rr.Txt) }
@@ -702,7 +702,7 @@ func (rr *DNAME) String() string {
 // A RR. See RFC 1035.
 type A struct {
 	Hdr RR_Header
-	A   net.IP `dns:"a"`
+	A   net.IP `dns:"a",json:"A"`
 }
 
 func (rr *A) String() string {
@@ -715,7 +715,7 @@ func (rr *A) String() string {
 // AAAA RR. See RFC 3596.
 type AAAA struct {
 	Hdr  RR_Header
-	AAAA net.IP `dns:"aaaa"`
+	AAAA net.IP `dns:"aaaa",json:"AAAA"`
 }
 
 func (rr *AAAA) String() string {

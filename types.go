@@ -342,7 +342,7 @@ func (rr *MD) String() string {
 type MX struct {
 	Hdr        RR_Header
 	Preference uint16
-	Mx         string `dns:"cdomain-name"`
+	Mx         string `dns:"cdomain-name",json:"MX"`
 }
 
 func (rr *MX) String() string {
